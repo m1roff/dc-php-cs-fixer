@@ -1,0 +1,17 @@
+FROM ubuntu:24.04
+
+# Установка необходимых пакетов
+#RUN apk add --no-cache curl gettext
+RUN apt-get update && apt-get install -y curl gettext unzip && rm -rf /var/lib/apt/lists/*
+
+
+# Установка kubectl
+RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
+    chmod +x ./kubectl && \
+    mv ./kubectl /usr/local/bin/kubectl
+
+# Установка keystone-auth
+RUN curl -sSL \
+      https://hub.mcs.mail.ru/repository/client-keystone-auth/latest/linux/client-install.sh \
+    | bash \
+    && ln -s /root/vk-cloud-solutions/bin/client-keystone-auth /usr/local/bin/client-keystone-auth
