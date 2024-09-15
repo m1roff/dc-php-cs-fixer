@@ -1,0 +1,15 @@
+# Используем минимальный базовый образ
+FROM alpine:latest
+
+# Устанавливаем необходимые пакеты
+RUN apk --no-cache add curl bash git
+
+# Устанавливаем sentry-cli
+RUN curl -sL https://sentry.io/get-cli/ | bash
+
+# Устанавливаем переменную окружения для пути к sentry-cli
+ENV PATH="/root/.sentry-cli/bin:$PATH"
+
+WORKDIR /app
+
+CMD ["sh"]
